@@ -1,5 +1,6 @@
 package com.vineet.Taxi.Booking.Application.controller;
 
+import com.vineet.Taxi.Booking.Application.model.BookingForm;
 import com.vineet.Taxi.Booking.Application.model.ContactForm;
 import com.vineet.Taxi.Booking.Application.service.AdminCredentialsService;
 import com.vineet.Taxi.Booking.Application.service.BookingFormService;
@@ -15,6 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("admin")
 public class AdminController {
+
 
     private AdminCredentialsService adminCredentialsService;
     @Autowired
@@ -52,6 +54,23 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("message", "CONTACT DELETED SUCCESSFULLY");
        return "redirect:/admin/readallcontacts";
     }
+
+
+    @GetMapping("readallbookings")
+    public String readAllBookings(Model model){
+        List<BookingForm> allBookingService= bookingFormService.readAllBookingService();
+        model.addAttribute("allbookings", allBookingService);
+        return "admin/readallbookings";
+    }
+
+    @GetMapping("deleteBooking/{id}")
+    public String deleteBooking(@PathVariable int id, RedirectAttributes redirectAttributes){
+        bookingFormService.deleteBookingService(id);
+        redirectAttributes.addFlashAttribute("message", "BOOKING DELETED SUCCESSFULLY");
+        return "redirect:/admin/readallbookings";
+    }
+
+
     @GetMapping("changecredentials")
     public String changeCredentialspage(){
         return "admin/changecredentials";
