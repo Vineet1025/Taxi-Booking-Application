@@ -2,13 +2,17 @@ package com.vineet.Taxi.Booking.Application.controller;
 
 import com.vineet.Taxi.Booking.Application.model.BookingForm;
 import com.vineet.Taxi.Booking.Application.model.ContactForm;
+import com.vineet.Taxi.Booking.Application.model.ServiceForm;
 import com.vineet.Taxi.Booking.Application.service.AdminCredentialsService;
 import com.vineet.Taxi.Booking.Application.service.BookingFormService;
 import com.vineet.Taxi.Booking.Application.service.ContactFormService;
+import com.vineet.Taxi.Booking.Application.service.ServiceFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -17,6 +21,11 @@ import java.util.List;
 @RequestMapping("admin")
 public class AdminController {
 
+    private ServiceFormService serviceFormService;
+    @Autowired
+    public void setServiceFormService(ServiceFormService serviceFormService) {
+        this.serviceFormService = serviceFormService;
+    }
 
     private AdminCredentialsService adminCredentialsService;
     @Autowired
@@ -93,6 +102,41 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("message", result);
         }
         return "redirect:/admin/dashboard";
+    }
+
+
+    @GetMapping("addservice")
+    public String addServicepage(){
+        return "admin/addservice";
+    }
+
+    @InitBinder
+    public void stopBinding(WebDataBinder webDataBinder) {
+        webDataBinder.setDisallowedFields("image");
+    }
+
+    @PostMapping("addservice")
+    public String addService(@ModelAttribute ServiceForm serviceForm ,
+                             @RequestParam("image") MultipartFile multipartFile, RedirectAttributes redirectAttributes  ) {
+
+        String originalFilename = multipartFile.getOriginalFilename();
+        serviceForm.setImage(originalFilename);
+
+        try {
+
+            ServiceForm service = serviceFormService.addService(serviceForm, multipartFile);
+            if(service!=null) {
+                redirectAttributes.addFlashAttribute("msg","Service Added Successfully");
+            }else {
+                redirectAttributes.addFlashAttribute("msg","Something went wrong");
+            }
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg","Something went wrong");
+        }
+
+
+        return "redirect:/admin/addservice";
     }
 
 }
