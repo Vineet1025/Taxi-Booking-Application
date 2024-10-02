@@ -2,9 +2,11 @@ package com.vineet.Taxi.Booking.Application.controller;
 
 import com.vineet.Taxi.Booking.Application.model.BookingForm;
 import com.vineet.Taxi.Booking.Application.model.ContactForm;
+import com.vineet.Taxi.Booking.Application.model.ServiceForm;
 import com.vineet.Taxi.Booking.Application.service.BookingFormService;
 import com.vineet.Taxi.Booking.Application.service.ContactFormService;
 import com.vineet.Taxi.Booking.Application.service.ContactFormServiceImpl;
+import com.vineet.Taxi.Booking.Application.service.ServiceFormService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +17,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 public class MyController {
+    private ServiceFormService serviceFormService;
+    @Autowired
+    public void setServiceFormService(ServiceFormService serviceFormService) {
+        this.serviceFormService = serviceFormService;
+    }
 
     private ContactFormService contactFormService;
     @Autowired
@@ -43,7 +52,10 @@ public class MyController {
         return "cars";
     }
     @GetMapping("services")
-    public String servicespage(){
+    public String servicespage(Model m){
+        List<ServiceForm> allServices = serviceFormService.readAllServices();
+        m.addAttribute("allservices", allServices);
+        System.out.println(m);
         return "services";
     }
     @GetMapping("contacts")
