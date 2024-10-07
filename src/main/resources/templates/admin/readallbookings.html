@@ -4,40 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Bookings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        /* Internal CSS */
         body {
             font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
         }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
+
         th, td {
             padding: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid #337ab7;
+        }
 
-        }
         th {
-            background-color: #f2f2f2;
+            background-color: #337ab7;
+            color: #fff;
         }
+
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
-        h3 {
+
+        h1, h2, h3 {
             color: #333;
         }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
+
         .center{
             text-align:center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #337ab7;
+        }
+
+        a:hover {
+            color: #23527c;
+        }
+
+        .delete-btn {
+            background-color: #337ab7;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #23527c;
         }
     </style>
 </head>
 <body>
-<a href="dashboard">ADMIN DASHBOARD</a>
+<a href="dashboard" style="text-decoration: none; color: #337ab7;">ADMIN DASHBOARD</a>
 <br><br>
 <div class="container">
     <h1 style="text-align:center" >All Bookings</h1>
@@ -73,10 +111,8 @@
             <td class="center"  th:text="${booking.children}"></td>
             <td th:text="${booking.message}"></td>
             <td>
-                <a th:href="@{/admin/deleteBooking/{id}  (id=${booking.id})}">DELETE</a>
+                <button class="delete-btn" th:href="@{/admin/deleteBooking/{id}  (id=${booking.id})}">DELETE</button>
             </td>
-
-
         </tr>
         </tbody>
     </table>

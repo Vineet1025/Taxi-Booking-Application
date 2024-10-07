@@ -1,22 +1,110 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Admin Dashboard</title>
+    <style>
+        /* Internal CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #333;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            color: #666;
+            margin: 0;
+        }
+
+        .links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .links li {
+            margin: 10px;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: #337ab7;
+            padding: 10px 20px;
+            border: 1px solid #337ab7;
+            border-radius: 5px;
+        }
+
+        .links a:hover {
+            color: #23527c;
+            border-color: #23527c;
+        }
+
+        .logout {
+            background-color: #337ab7;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background-color: #23527c;
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-<h1>WELCOME TO ADMIN DASHBOARD</h1>
+<div class="container">
+    <div class="header">
+        <h1>WELCOME TO ADMIN DASHBOARD</h1>
+        <h2 th:text="${message}"></h2>
+    </div>
+    <ul class="links">
+        <li><a href="readallcontacts"><i class="icon fas fa-users"></i> Read All Contacts</a></li>
+        <li><a href="readallbookings"><i class="icon fas fa-book"></i> Read All Bookings</a></li>
+        <li><a href="addservice"><i class="icon fas fa-plus"></i> Add Service</a></li>
+        <li><a href="changecredentials"><i class="icon fas fa-lock"></i> Change Credentials</a></li>
+        <li><button class="logout" onclick="logout()"><i class="icon fas fa-sign-out-alt"></i> Logout</button></li>
+    </ul>
+</div>
 
-<h2 th:text="${message}"></h2>
-
-<a href="readallcontacts"> Read All Contacts</a>
-<br>
-<a href="readallbookings"> Read All Bookings</a>
-<br>
-<a href="addservice"> Add Service</a>
-<br>
-<a href="changecredentials"> Change Credentials</a>
-<br>
-<a href="/logout"> Logout</a>
+<script>
+    function logout() {
+        window.location.href = "/logout";
+    }
+</script>
 </body>
 </html>
